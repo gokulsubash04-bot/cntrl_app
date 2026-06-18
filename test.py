@@ -1,37 +1,49 @@
-import subprocess
+import speech_recognition as sr
 import os
 
-apps = {
-    "chrome": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-    "vs code": "C:\\Users\\GOKUL\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
-    "notepad": "notepad.exe",
-    "calculator": "calc.exe"
-}
+def listen():
+    recognizer = sr.Recognizer()
 
-def open_app(name):
-    if name in apps:
-        subprocess.Popen(apps[name])
-        print(f"Opening {name}")
+    with sr.Microphone() as source:
+        print("Listening...🙉🙉🙉🙉🙉")
+        recognizer.adjust_for_ambient_noise(source)
+        audio = recognizer.listen(source)
+
+    try:
+        command = recognizer.recognize_google(audio).lower()
+        print("You said:", command)
+        return command
+
+    except Exception:
+        return ""
+
+def execute_command(command):
+    if "open whatsapp" in command:
+        os.system("start whatsapp:")
+    elif "close whatsapp" in command:
+        os.system("taskkill /f /im WhatsApp.Root.exe")
+    elif "open chrome" in command:
+        os.system("start chrome")
+    elif "close chrome" in command:
+        os.system("taskkill /f /im chrome.exe")
+
+    elif "open notepad" in command:
+        os.system("notepad")
+    elif "close notepad" in command:
+        os.system("taskkill /f /im notepad.exe")
+
+    elif "open calc" in command:
+        os.system("calc")
+    elif "close calc" in command:
+        os.system("taskkill /f /im CalculatorApp.exe")
+    elif "close all" in command:
+        os.system("taskkill /f /im WhatsApp.Root.exe")
+        os.system("taskkill /f /im chrome.exe")
+        os.system("taskkill /f /im notepad.exe")
+        os.system("taskkill /f /im CalculatorApp.exe")
     else:
-        print("App not found")
+        print("Command not recognized(●'◡'●)(●'◡'●)(●'◡'●)")
 
-#open_app("calculator")
-#open_app("chrome")
-#open_app("vs code")
-#open_app("notepad")
-
-def close_app(name):
-    processes = {
-        "chrome": "chrome.exe",
-        "vs code": "Code.exe",
-        "notepad": "notepad.exe",
-        "calculator": "CalculatorApp.exe"
-    }
-
-    if name in processes:
-        os.system(f'taskkill /f /im "{processes[name]}"')
-if "close" in command:
-        close_app("chrome")
-        close_app("vs code")
-        close_app("notepad")
-        close_app("calculator")
+while True:
+    command = listen()
+    execute_command(command)

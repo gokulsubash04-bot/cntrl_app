@@ -1,43 +1,77 @@
-# Control App (cntrl_app)
+# 🎙️ Control App (cntrl_app)
 
-A simple Python application to programmatically manage (open and close) common applications on Windows.
+A Python-based, voice-controlled assistant designed to programmatically manage common Windows applications using speech recognition. Simply speak to open or close apps like WhatsApp, Google Chrome, Notepad, and the Calculator.
 
-## Features
+---
 
-- **Open Applications**: Launch applications like Google Chrome, Visual Studio Code, Notepad, and Calculator using Python's `subprocess`.
-- **Close Applications**: Terminate running instances of these applications using Windows `taskkill`.
+## ✨ Features
 
-## Supported Applications
+- **🎙️ Speech Recognition**: Utilizes Google's speech recognition engine via the `speech_recognition` library to process audio commands in real-time.
+- **🚀 Native Integration**: Opens applications instantly using native Windows URI schemes and shell execution.
+- **🛑 Forceful Closure**: Seamlessly terminates application processes using the Windows `taskkill` command.
+- **🔄 Continuous Listening**: Runs in an interactive loop, continuously monitoring for your commands.
 
-The application contains configuration maps for:
-- Google Chrome (`chrome`)
-- Visual Studio Code (`vs code`)
-- Notepad (`notepad`)
-- Calculator (`calculator`)
+---
 
-## Getting Started
+## 🛠️ Supported Voice Commands
 
-### Prerequisites
+| Voice Command | Action Description | Target Process / Command |
+| :--- | :--- | :--- |
+| **"open whatsapp"** | Launches the WhatsApp UWP application | `start whatsapp:` |
+| **"close whatsapp"** | Force-closes all WhatsApp processes | `taskkill /f /im WhatsApp.Root.exe` |
+| **"open chrome"** | Launches Google Chrome browser | `start chrome` |
+| **"close chrome"** | Force-closes Google Chrome | `taskkill /f /im chrome.exe` |
+| **"open notepad"** | Launches standard Windows Notepad | `notepad` |
+| **"close notepad"** | Force-closes Notepad | `taskkill /f /im notepad.exe` |
+| **"open calc"** | Launches Windows Calculator | `calc` |
+| **"close calc"** | Force-closes the Calculator app | `taskkill /f /im CalculatorApp.exe` |
+| **"close all"** | Closes all supported applications at once | Clears Chrome, Notepad, WhatsApp, and Calculator |
 
-- **Operating System**: Windows (uses Windows-specific executable paths and `taskkill` commands).
-- **Python**: Python 3.x installed.
+> [!NOTE]
+> Modern Universal Windows Platform (UWP) apps installed from the Microsoft Store (such as WhatsApp and Calculator) use specific process names (`WhatsApp.Root.exe` and `CalculatorApp.exe`) rather than standard filenames. The application has been fully optimized to target these correct process names.
 
-### How to Use
+---
 
-The script defines functions to interact with the applications:
+## 🚀 Getting Started
 
-```python
-from test import open_app, close_app
+### 📋 Prerequisites
 
-# Open Calculator
-open_app("calculator")
+- **Operating System**: Windows (required for specific shell commands and `taskkill`).
+- **Python Version**: Python 3.8 or higher.
+- **Hardware**: An active microphone.
 
-# Close Chrome
-close_app("chrome")
+### 🔌 Installation
+
+1. **Clone or navigate** to the project directory:
+   ```bash
+   cd d:\codeing\cntrl_app
+   ```
+
+2. **Activate the virtual environment** (if using one):
+   ```powershell
+   .\.venv\Scripts\Activate.ps1
+   ```
+
+3. **Install the required dependencies**:
+   ```bash
+   pip install SpeechRecognition pyaudio
+   ```
+
+> [!TIP]
+> If you encounter issues installing `pyaudio` on Windows, you can install the pre-compiled wheel using pip, or install it via `pip install pipwin` followed by `pipwin install pyaudio`.
+
+### 🎮 Running the App
+
+Execute the main controller script:
+```bash
+python test.py
 ```
 
-### Script Structure
+Once running, the app will output `Listening...🙉🙉🙉🙉🙉`. Simply speak any of the supported commands clearly into your microphone!
 
-- `apps`: A dictionary containing paths to application executables.
-- `open_app(name)`: Launches the specified application.
-- `close_app(name)`: Forcefully closes the specified application using `taskkill`.
+---
+
+## 📂 Project Structure
+
+- [test.py](file:///d:/codeing/cntrl_app/test.py): The main application script containing speech recognition and command execution logic.
+- [README.md](file:///d:/codeing/cntrl_app/README.md): Documentation of the application.
